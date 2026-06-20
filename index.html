@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f2e8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="跟读练习">
+  <title>英语跟读练习</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <aside class="sidebar" aria-label="课程">
+      <div class="brand">
+        <div class="brand-mark">E</div>
+        <div>
+          <h1>英语跟读</h1>
+          <p id="todayLabel">今日练习</p>
+        </div>
+      </div>
+
+      <section class="daily-panel" aria-label="今日计时">
+        <div class="ring" id="progressRing" aria-label="今日进度">
+          <span id="dailyMinutes">0</span>
+          <small>/ 30 分钟</small>
+        </div>
+        <div class="timer-row">
+          <button class="icon-btn primary" id="timerToggle" type="button" aria-label="开始计时" title="开始计时">▶</button>
+          <button class="icon-btn" id="timerReset" type="button" aria-label="重置本次计时" title="重置本次计时">↺</button>
+          <span id="sessionTime">00:00</span>
+        </div>
+      </section>
+
+      <nav class="lesson-list" id="lessonList" aria-label="文章列表"></nav>
+    </aside>
+
+    <section class="workspace">
+      <header class="topbar">
+        <div class="tabs" role="tablist" aria-label="内容分类">
+          <button class="tab active" data-filter="all" type="button">全部</button>
+          <button class="tab" data-filter="travel" type="button">旅游英语</button>
+          <button class="tab" data-filter="nce2" type="button">新概念2风格</button>
+          <button class="tab" data-filter="custom" type="button">自定义</button>
+        </div>
+        <button class="text-btn" id="openImport" type="button">导入文章</button>
+      </header>
+
+      <article class="reader">
+        <div class="lesson-heading">
+          <div>
+            <p class="eyebrow" id="lessonTag">旅游英语</p>
+            <h2 id="lessonTitle">Hotel Check-in</h2>
+          </div>
+          <div class="score-summary">
+            <span id="lessonAverage">--</span>
+            <small>平均分</small>
+          </div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-meta">
+            <span id="sentenceCount">1 / 1</span>
+            <span id="sentenceScore">尚未评分</span>
+          </div>
+          <p class="sentence-text" id="sentenceText"></p>
+          <p class="sentenceCn" id="sentenceCn"></p>
+
+          <div class="controls" aria-label="跟读控制">
+            <button class="icon-btn" id="prevSentence" type="button" aria-label="上一句" title="上一句">‹</button>
+            <button class="icon-btn" id="speakSentence" type="button" aria-label="播放原句" title="播放原句">▶</button>
+            <button class="record-btn" id="recordBtn" type="button">录音</button>
+            <button class="icon-btn" id="playRecording" type="button" aria-label="播放录音" title="播放录音" disabled>▶</button>
+            <button class="icon-btn" id="scoreBtn" type="button" aria-label="评分" title="评分">✓</button>
+            <button class="icon-btn" id="nextSentence" type="button" aria-label="下一句" title="下一句">›</button>
+          </div>
+
+          <div class="meter" aria-label="评分条">
+            <span id="scoreBar"></span>
+          </div>
+
+          <div class="feedback" id="feedback">
+            先播放原句，再录下自己的跟读。
+          </div>
+        </div>
+
+        <section class="sentence-list" id="sentenceList" aria-label="句子"></section>
+      </article>
+    </section>
+  </main>
+
+  <dialog class="import-dialog" id="importDialog">
+    <form method="dialog" class="import-form">
+      <div class="dialog-head">
+        <h2>导入文章</h2>
+        <button class="icon-btn" value="cancel" type="submit" aria-label="关闭" title="关闭">×</button>
+      </div>
+      <label>
+        标题
+        <input id="customTitle" autocomplete="off" placeholder="例如：机场问路练习">
+      </label>
+      <label>
+        分类
+        <select id="customCategory">
+          <option value="travel">旅游英语</option>
+          <option value="nce2">新概念2风格</option>
+          <option value="custom">自定义</option>
+        </select>
+      </label>
+      <label>
+        英文内容
+        <textarea id="customBody" rows="8" placeholder="粘贴你有权使用的英文文章，系统会自动分句。"></textarea>
+      </label>
+      <div class="dialog-actions">
+        <button class="text-btn" value="cancel" type="submit">取消</button>
+        <button class="text-btn strong" id="saveCustom" value="default" type="button">保存</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="./app.js"></script>
+</body>
+</html>
