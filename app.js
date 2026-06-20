@@ -100,6 +100,9 @@ const els = {
   sentenceCn: document.querySelector("#sentenceCn"),
   prevSentence: document.querySelector("#prevSentence"),
   speakSentence: document.querySelector("#speakSentence"),
+  voiceSelect: document.querySelector("#voiceSelect"),
+  rateInput: document.querySelector("#rateInput"),
+  pitchInput: document.querySelector("#pitchInput"),
   recordBtn: document.querySelector("#recordBtn"),
   playRecording: document.querySelector("#playRecording"),
   scoreBtn: document.querySelector("#scoreBtn"),
@@ -124,6 +127,7 @@ function init() {
     weekday: "long"
   }).format(new Date());
   bindEvents();
+  loadVoices();
   updateDailyProgress();
   renderLessons();
   renderReader();
@@ -140,6 +144,7 @@ function bindEvents() {
   els.scoreBtn.addEventListener("click", scoreCurrentSentence);
   els.openImport.addEventListener("click", () => els.importDialog.showModal());
   els.saveCustom.addEventListener("click", saveCustomLesson);
+  window.speechSynthesis.addEventListener("voiceschanged", loadVoices);
   els.tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
       activeFilter = tab.dataset.filter;
@@ -294,9 +299,39 @@ function speakCurrentSentence() {
   window.speechSynthesis.cancel();
   const utterance = new SpeechSynthesisUtterance(activeSentence().text);
   utterance.lang = "en-US";
-  utterance.rate = 0.86;
-  utterance.pitch = 1;
+  const voice = getSelectedVoice();
+  if (voice) utterance.voice = voice;
+  utterance.rate = Number(els.rateInput.value);
+  utterance.pitch = Number(els.pitchInput.value);
   window.speechSynthesis.speak(utterance);
+}
+
+function loadVoices() {
+  const voices = window.speechSynthesis.getVoices()
+    .filter((voice) => /^en[-_]/i.test(voice.lang));
+  if (!voices.length) {
+    els.voiceSelect.innerHTML = "<option value=\"\">系统默认英文</option>";
+    return;
+  }
+
+  const selected = els.voiceSelect.value || bestVoice(voices)?.name || voices[0].name;
+  els.voiceSelect.innerHTML = voices
+    .map((voice) => `<option value="${escapeHtml(voice.name)}">${escapeHtml(voice.name)} · ${escapeHtml(voice.lang)}</option>`)
+    .join("");
+  els.voiceSelect.value = voices.some((voice) => voice.name === selected) ? selected : voices[0].name;
+}
+
+function getSelectedVoice() {
+  const voices = window.speechSynthesis.getVoices();
+  return voices.find((voice) => voice.name === els.voiceSelect.value) || bestVoice(voices);
+}
+
+function bestVoice(voices) {
+  const englishVoices = voices.filter((voice) => /^en[-_]/i.test(voice.lang));
+  const preferredWords = ["Samantha", "Ava", "Susan", "Karen", "Moira", "Daniel", "Alex", "Premium", "Enhanced", "Natural"];
+  return englishVoices.find((voice) => preferredWords.some((word) => voice.name.includes(word)))
+    || englishVoices.find((voice) => voice.lang === "en-US")
+    || englishVoices[0];
 }
 
 async function toggleRecording() {

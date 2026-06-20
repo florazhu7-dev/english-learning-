@@ -318,6 +318,24 @@ p {
   font-weight: 700;
 }
 
+.voice-panel {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.5fr) minmax(130px, 1fr) minmax(130px, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.voice-panel label {
+  font-size: 14px;
+}
+
+.voice-panel input[type="range"] {
+  padding: 0;
+  accent-color: var(--accent);
+}
+
 .meter {
   height: 12px;
   margin-top: 22px;
@@ -471,5 +489,9 @@ textarea {
   .icon-btn,
   .record-btn {
     width: 100%;
+  }
+
+  .voice-panel {
+    grid-template-columns: 1fr;
   }
 }
