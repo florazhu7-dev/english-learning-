@@ -1,6 +1,14 @@
 # 英语跟读练习 App
 
-本文件夹是一套纯前端英语跟读练习应用，可以直接部署为 HTTPS 静态网站，然后在 iPad Safari 中添加到主屏幕使用。
+本仓库是一套纯前端英语跟读练习应用，可以直接部署为 HTTPS 静态网站，然后在 iPad Safari 中添加到主屏幕使用。
+
+## 线上地址
+
+GitHub Pages 发布后访问：
+
+```text
+https://florazhu7-dev.github.io/english-learning-/
+```
 
 ## 已有功能
 
@@ -32,7 +40,7 @@ http://localhost:5173
 
 ## iPad 使用
 
-iPad 上要使用录音功能，建议把本文件夹部署到 HTTPS 静态站点，例如 GitHub Pages、Netlify、Cloudflare Pages，之后用 iPad Safari 打开并添加到主屏幕。
+iPad 上要使用录音功能，建议通过 HTTPS 页面打开，然后用 iPad Safari 添加到主屏幕。
 
 普通局域网 HTTP 页面可能无法获得 iPad 麦克风权限。
 
